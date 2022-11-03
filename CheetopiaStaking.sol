@@ -78,7 +78,7 @@ contract CheetopiaStaking is Ownable {
                     revert(0x1c, 0x04)
                 }
             }
-            mstore(0x40, add(ptr, 0x80)) //Restore pointer
+            mstore(0x40, calldataOffset) //Restore pointer
         }
     }
 
@@ -151,7 +151,7 @@ contract CheetopiaStaking is Ownable {
                 }
             }
             //Restore free memory pointer
-            mstore(0x40, add(ptr, 0x80))
+            mstore(0x40, calldataOffset)
         }
     }
    
