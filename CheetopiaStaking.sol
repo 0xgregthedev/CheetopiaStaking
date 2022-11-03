@@ -106,7 +106,7 @@ contract CheetopiaStaking is Ownable {
             mstore(add(ptr, 0x60), tokenId)//'tokenId'
             mstore(0x40, add(ptr, 0x80)) //Restore pointer
             //If transfer fails, revert TransferFailed()
-            if iszero(call(gas(), sload(_CHEETOPIA.slot), 0x0, add(ptr, 0x1C), mload(0x40), 0x0, 0x0)) { //prettier-ignore
+            if iszero(call(gas(), sload(_CHEETOPIA.slot), 0x0, add(ptr, 0x1C), mload(0x40), returndatasize(), returndatasize())) { //prettier-ignore
                 mstore(0x0, 0x90b8ec18)//store TransferFailed() selector
                 revert(0x1c, 0x04)
             }
