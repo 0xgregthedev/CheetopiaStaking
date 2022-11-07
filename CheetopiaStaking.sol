@@ -96,7 +96,7 @@ contract CheetopiaStaking is Ownable {
             }
             //Update _userStakingData mapping
             sstore(location, 0x0)
-            
+
             mstore(0x0, 0x23b872dd) //'transferFrom(address,address,uint256)' selector
             mstore(0x20, address()) //'from'
             mstore(0x40, caller()) //'to'
@@ -143,7 +143,7 @@ contract CheetopiaStaking is Ownable {
                 mstore(idOffset, id) //'tokenId'
                 //prettier-ignore
                 //If Transfer fails revert TransferFailed()
-                if iszero(call(gas(), sload(_CHEETOPIA.slot), 0, selectorOffset, 0x64, 0, 0)) {
+                if iszero(call(gas(), sload(_CHEETOPIA.slot), 0x0, selectorOffset, 0x64, 0x0, 0x0)) {
                     //prettier-ignore
                     mstore(0x0, 0x90b8ec18) //store TransferFailed() selector
                     revert(0x1c, 0x04)
