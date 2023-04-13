@@ -7,7 +7,7 @@ contract CheetopiaStaking is Ownable {
     error NotStaked();
     error TransferFailed();
 
-    address private _CHEETOPIA;
+    address private immutable _CHEETOPIA;
     mapping(address => mapping(uint256 => bool)) private _userStakingData;
 
     constructor(address CHEETOPIA_) payable {
