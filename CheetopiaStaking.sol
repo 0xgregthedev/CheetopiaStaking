@@ -35,7 +35,7 @@ contract CheetopiaStaking is Ownable {
 
             //prettier-ignore
             //If transfer fails, revert TransferFailed()
-            if iszero(call(gas(), sload(_CHEETOPIA.slot), 0x0, 0x1C, 0x64, 0x0, 0x0)) {
+            if iszero(call(gas(), sload(_CHEETOPIA.slot), returndatasize(), 0x1C, 0x64, returndatasize(), returndatasize())) {
                 mstore(0x0, 0x90b8ec18) //'TransferFailed()' selector
                 revert(0x1c, 0x04)
             }
@@ -69,12 +69,13 @@ contract CheetopiaStaking is Ownable {
                 //Transfer from caller to contract. If transfer fails revert.
                 mstore(idOffset, id)
                 //prettier-ignore
-                if iszero(call(gas(), sload(_CHEETOPIA.slot), 0x0, selectorOffset, 0x64, 0x0, 0x0)) {
+                if iszero(call(gas(), sload(_CHEETOPIA.slot), returndatasize(), selectorOffset, 0x64, returndatasize(), returndatasize())) {
                     mstore(0x0, 0x90b8ec18) //store TransferFailed()
                     revert(0x1c, 0x04)
                 }
             }
             mstore(0x40, ptr) //Restore pointer
+            mstore(0x60, 0x0) //Restore zero slot
         }
     }
 
@@ -103,12 +104,12 @@ contract CheetopiaStaking is Ownable {
             mstore(0x60, tokenId) //'tokenId'
             //prettier-ignore
             //If transfer fails, revert TransferFailed()
-            if iszero(call(gas(), sload(_CHEETOPIA.slot), 0x0, 0x1C, 0x64, 0x0, 0x0)) {
+            if iszero(call(gas(), sload(_CHEETOPIA.slot), returndatasize(), 0x1C, 0x64, returndatasize(), returndatasize())) {
                 mstore(0x0, 0x90b8ec18) //'TransferFailed()' selector
                 revert(0x1c, 0x04)
             }
             mstore(0x40, ptr) //Restore pointer
-            mstore(0x60, 0x0) //Restore zero space
+            mstore(0x60, 0x0) //Restore zero slot
         }
     }
 
@@ -143,14 +144,15 @@ contract CheetopiaStaking is Ownable {
                 mstore(idOffset, id) //'tokenId'
                 //prettier-ignore
                 //If Transfer fails revert TransferFailed()
-                if iszero(call(gas(), sload(_CHEETOPIA.slot), 0x0, selectorOffset, 0x64, 0x0, 0x0)) {
+                if iszero(call(gas(), sload(_CHEETOPIA.slot), returndatasize(), selectorOffset, 0x64, returndatasize(), returndatasize())) {
                     //prettier-ignore
                     mstore(0x0, 0x90b8ec18) //store TransferFailed() selector
                     revert(0x1c, 0x04)
                 }
             }
-            //Restore free memory pointer
-            mstore(0x40, ptr)
+            
+            mstore(0x40, ptr) //Restore free memory pointer
+            mstore(0x60, 0x0) //Restore zero slot
         }
     }
 
